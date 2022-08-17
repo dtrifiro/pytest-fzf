@@ -28,6 +28,7 @@ Requirements
 ------------
 
 * `fzf` (https://github.com/junegunn/fzf)
+* (Optional, for colored preview of test functions) `bat` (https://github.com/sharkdp/bat)
 
 
 Installation

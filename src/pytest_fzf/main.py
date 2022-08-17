@@ -1,4 +1,9 @@
+import shutil
+
 from iterfzf import iterfzf
+
+BAT_AVAILABLE = shutil.which("bat")
+BAT_CMD = "bat --color=always --language=python"
 
 
 def pytest_addoption(parser):
@@ -29,10 +34,23 @@ def pytest_collection_modifyitems(
     kwargs = {
         "multi": True,
         "prompt": "Select test(s)",
-        "preview": None,  # TODO: add preview to show test code
+        "preview": "tail -n +{2} {1}" + f"| {BAT_CMD}"
+        if BAT_AVAILABLE
+        else "",
         "query": config.option.fzf_query,
     }
-    selected_names = iterfzf((test.name for test in items), *kwargs)
+
+    selected = iterfzf(
+        (
+            f"{test.location[0]} "  # file path
+            f"{int(test.location[1])+1} "  # line number
+            f"{test.location[2]}"  # function name
+            for test in items
+        ),
+        **kwargs,
+    )
+
+    selected_names = [test.split(" ")[2] for test in selected]
 
     if config.option.verbose == 1:
         print(f"\n fzf selected the following tests: {selected_names}")
