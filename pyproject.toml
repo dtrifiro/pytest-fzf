@@ -65,6 +65,7 @@ files = ["src", "tests"]
 
 [tool.pylint.message_control]
 enable = ["c-extension-no-member", "no-else-return"]
+disable = "missing-function-docstring,missing-module-docstring,fixme,invalid-name"
 
 [tool.pylint.variables]
 dummy-variables-rgx = "_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_"

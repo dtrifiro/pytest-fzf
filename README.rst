@@ -21,13 +21,13 @@ fzf-based test selection with pytest
 Features
 --------
 
-* TODO
+* Select tests to be run with pytest using fzf
 
 
 Requirements
 ------------
 
-`fzf` (https://github.com/junegunn/fzf)
+* `fzf` (https://github.com/junegunn/fzf)
 
 
 Installation
@@ -41,7 +41,16 @@ You can install "pytest-fzf" via `pip`_ from `PyPI`_::
 Usage
 -----
 
-* TODO
+.. code:: console
+
+   $ pytest --fzf
+
+In order to start fzf with a given query:
+
+.. code:: console
+
+   $ pytest --fzf --fzf-query=<query>
+
 
 Contributing
 ------------

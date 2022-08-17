@@ -1,25 +1,40 @@
-# -*- coding: utf-8 -*-
-
-import pytest
+from iterfzf import iterfzf
 
 
 def pytest_addoption(parser):
-    group = parser.getgroup("fzf")
+    group = parser.getgroup("fzf", "Test selection using fzf")
     group.addoption(
         "--fzf",
-        action="store",
+        action="store_true",
         dest="fzf_select",
         default=False,
-        help="Filter tests using fzf",
+        help="Select tests to be run using fzf.",
     )
 
-    parser.addini("HELLO", "Dummy pytest.ini setting")
+    group.addoption(
+        "--fzf-query",
+        action="store",
+        dest="fzf_query",
+        default="",
+        help="Initial fzf query.",
+    )
 
 
-def pytest_collection_modifyitems(session, config, items):
-    raise NotImplementedError
+def pytest_collection_modifyitems(
+    session, config, items  # pylint: disable=unused-argument
+):
+    if not config.option.fzf_select:
+        return
 
+    kwargs = {
+        "multi": True,
+        "prompt": "Select test(s)",
+        "preview": None,  # TODO: add preview to show test code
+        "query": config.option.fzf_query,
+    }
+    selected_names = iterfzf((test.name for test in items), *kwargs)
 
-@pytest.fixture
-def bar(request):
-    return request.config.option.dest_foo
+    if config.option.verbose == 1:
+        print(f"\n fzf selected the following tests: {selected_names}")
+
+    items[:] = [test for test in items if test.name in selected_names]
