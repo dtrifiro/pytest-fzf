@@ -45,6 +45,8 @@ Usage
 
    $ pytest --fzf
 
+Select multiple tests using `tab`, deselect previously selected tests using `shift+tab`
+
 In order to start fzf with a given query:
 
 .. code:: console
