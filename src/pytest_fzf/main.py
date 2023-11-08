@@ -41,7 +41,7 @@ def pytest_collection_modifyitems(
     selected = iterfzf(
         (
             f"{test.location[0]} "  # file path
-            f"{int(test.location[1])+1} "  # line number
+            f"{int(test.location[1]) + 1} "  # line number
             f"{test.location[2]}"  # function name
             for test in items
         ),
