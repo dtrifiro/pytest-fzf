@@ -1,6 +1,6 @@
 import shutil
 
-from iterfzf import iterfzf
+from iterfzf import iterfzf  # type: ignore[import-untyped]
 
 BAT_AVAILABLE = shutil.which("bat")
 BAT_CMD = "bat --color=always --language=python"

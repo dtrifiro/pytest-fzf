@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 def test_help_message(testdir):
     result = testdir.runpytest(
         "--help",
