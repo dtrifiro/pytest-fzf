@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: "20 4 * * 2" # once a week
 
 env:
   FORCE_COLOR: "1"
