@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools_scm]
 
 [tool.black]
-line-length = 79
+line-length = 88
 include = '\.pyi?$'
 exclude = '''
 /(
@@ -25,7 +25,7 @@ exclude = '''
 [tool.isort]
 profile = "black"
 known_first_party = ["pytest_fzf"]
-line_length = 79
+line_length = 88
 
 [tool.pytest.ini_options]
 addopts = "-ra"
@@ -63,6 +63,9 @@ warn_redundant_casts = true
 warn_unreachable = true
 files = ["src", "tests"]
 
+[tool.pylint.format]
+max-line-length = 88
+
 [tool.pylint.message_control]
 enable = ["c-extension-no-member", "no-else-return"]
 disable = "missing-function-docstring,missing-module-docstring,fixme,invalid-name"
@@ -70,3 +73,10 @@ disable = "missing-function-docstring,missing-module-docstring,fixme,invalid-nam
 [tool.pylint.variables]
 dummy-variables-rgx = "_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_"
 ignored-argument-names = "_.*|^ignored_|^unused_|args|kwargs"
+
+[tool.codespell]
+ignore-words-list = " "
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B101"]
