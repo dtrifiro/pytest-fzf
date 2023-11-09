@@ -28,7 +28,7 @@ def pytest_addoption(parser):
 def pytest_collection_modifyitems(
     session, config, items  # pylint: disable=unused-argument
 ):
-    if not config.option.fzf_select:
+    if not (config.option.fzf_select or config.option.fzf_query):
         return
 
     kwargs = {
