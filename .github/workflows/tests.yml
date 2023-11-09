@@ -43,13 +43,13 @@ jobs:
           nox --version
 
       - name: Lint code and check dependencies
-        run: nox -s lint safety
+        run: nox -s lint-${{ matrix.pyv }} safety-${{matrix.pyv}}
 
       - name: Run tests
-        run: nox -s tests-${{ matrix.nox_pyv || matrix.pyv }} -- --cov-report=xml
+        run: nox -s tests-${{ matrix.pyv }}
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3.1.4
 
       - name: Build package
-        run: nox -s build
+        run: nox -s build-${{ matrix.pyv }}
