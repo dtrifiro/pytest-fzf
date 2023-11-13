@@ -33,7 +33,7 @@ def pytest_collection_modifyitems(
 
     kwargs = {
         "multi": True,
-        "prompt": "Select test(s)",
+        "prompt": "Select test(s): ",
         "preview": "tail -n +{2} {1}" + f"| {BAT_CMD}" if BAT_AVAILABLE else "",
         "query": config.option.fzf_query,
     }
