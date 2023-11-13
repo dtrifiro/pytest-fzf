@@ -6,8 +6,7 @@ def test_help_message(testdir):
     result.stdout.fnmatch_lines(
         [
             "Test selection using fzf:",
-            "*--fzf*Select tests to be run using fzf.",
-            "*--fzf-query=FZF_QUERY",
-            "*Initial fzf query.",
+            "*--fzf*Select tests to be run using fzf. Optional args provide",
+            "*initial query",
         ]
     )

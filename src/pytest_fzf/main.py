@@ -6,36 +6,35 @@ BAT_AVAILABLE = shutil.which("bat")
 BAT_CMD = "bat --color=always --language=python"
 
 
+_sentinel = object()
+
+
 def pytest_addoption(parser):
     group = parser.getgroup("fzf", "Test selection using fzf")
     group.addoption(
         "--fzf",
-        action="store_true",
-        dest="fzf_select",
-        default=False,
-        help="Select tests to be run using fzf.",
-    )
-
-    group.addoption(
-        "--fzf-query",
         action="store",
-        dest="fzf_query",
-        default="",
-        help="Initial fzf query.",
+        dest="fzf",
+        default=_sentinel,
+        help="Select tests to be run using fzf. Optional args provide initial query",
+        nargs="?",
     )
 
 
 def pytest_collection_modifyitems(
     session, config, items  # pylint: disable=unused-argument
 ):
-    if not (config.option.fzf_select or config.option.fzf_query):
+    if config.option.fzf is _sentinel:
+        # not enabled
         return
+
+    query = config.option.fzf if config.option.fzf else ""
 
     kwargs = {
         "multi": True,
         "prompt": "Select test(s): ",
         "preview": "tail -n +{2} {1}" + f"| {BAT_CMD}" if BAT_AVAILABLE else "",
-        "query": config.option.fzf_query,
+        "query": query,
     }
 
     selected = iterfzf(
