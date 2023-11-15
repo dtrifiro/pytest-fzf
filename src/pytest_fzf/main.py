@@ -1,5 +1,6 @@
 import shutil
 
+import pytest
 from iterfzf import iterfzf  # type: ignore[import-untyped]
 
 BAT_AVAILABLE = shutil.which("bat")
@@ -37,15 +38,21 @@ def pytest_collection_modifyitems(
         "query": query,
     }
 
-    selected = iterfzf(
-        (
-            f"{test.location[0]} "  # file path
-            f"{int(test.location[1]) + 1} "  # line number
-            f"{test.location[2]}"  # function name
-            for test in items
-        ),
-        **kwargs,
-    )
+    try:
+        selected = iterfzf(
+            (
+                f"{test.location[0]} "  # file path
+                f"{int(test.location[1]) + 1} "  # line number
+                f"{test.location[2]}"  # function name
+                for test in items
+            ),
+            **kwargs,
+        )
+    except KeyboardInterrupt:
+        pytest.exit("No tests selected", returncode=0)
+
+    if not selected:
+        pytest.exit("No tests selected", returncode=0)
 
     selected_names = [test.split(" ")[2] for test in selected]
 
