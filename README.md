@@ -8,7 +8,7 @@ title: pytest-fzf
 
 fzf-based test selection with `pytest`
 
-[![demo](https://asciinema.org/a/iAr18ilruuPM7pZ1EAfXkxfEf.svg)](https://asciinema.org/a/iAr18ilruuPM7pZ1EAfXkxfEf)
+[![demo](https://github.com/dtrifiro/pytest-fzf/assets/36171005/29f7a610-2f15-402f-a24f-af8bf7e0e71d)](https://asciinema.org/a/iAr18ilruuPM7pZ1EAfXkxfEf)
 
 ---
 
