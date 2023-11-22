@@ -4,28 +4,48 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
 
-[tool.black]
-line-length = 88
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
+[project]
+name = "pytest-fzf"
+description = "fzf-based test selector for pytest"
+readme = "README.md"
+license = {text = "GNU GPL v3.0"}
+authors = [{ name = "Daniele Trifirò", email = "dtrifiro@redhat.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Development Status :: 4 - Beta",
+]
+requires-python = ">=3.8"
+dynamic = ["version"]
+dependencies = [
+    "iterfzf==1.1.0.44.0"
+]
 
-[tool.isort]
-profile = "black"
-known_first_party = ["pytest_fzf"]
-line_length = 88
+[project.urls]
+Issues = "https://github.com/dtrifiro/pytest-fzf/issues"
+Source = "https://github.com/dtrifiro/pytest-fzf"
+
+[project.entry-points."pytest11"]
+"pytest-fzf" = "pytest_fzf.main"
+
+[project.optional-dependencies]
+tests = [
+    "pytest==7.2.0",
+    "pytest-sugar==0.9.5",
+    "pytest-cov==3.0.0",
+    "pytest-mock==3.8.2",
+    "mypy==0.971",
+]
+dev = [
+    "pytest-fzf[tests]",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
 
 [tool.pytest.ini_options]
 addopts = "-ra"
@@ -63,20 +83,11 @@ warn_redundant_casts = true
 warn_unreachable = true
 files = ["src", "tests"]
 
-[tool.pylint.format]
-max-line-length = 88
-
-[tool.pylint.message_control]
-enable = ["c-extension-no-member", "no-else-return"]
-disable = "missing-function-docstring,missing-module-docstring,fixme,invalid-name"
-
-[tool.pylint.variables]
-dummy-variables-rgx = "_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_"
-ignored-argument-names = "_.*|^ignored_|^unused_|args|kwargs"
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
+module = [
+    "iterfzf",
+]
 
 [tool.codespell]
 ignore-words-list = " "
-
-[tool.bandit]
-exclude_dirs = ["tests"]
-skips = ["B101"]
