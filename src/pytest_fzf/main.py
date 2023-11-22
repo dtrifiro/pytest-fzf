@@ -23,7 +23,9 @@ def pytest_addoption(parser):
 
 
 def pytest_collection_modifyitems(
-    session, config, items  # pylint: disable=unused-argument
+    session,
+    config,
+    items,  # pylint: disable=unused-argument
 ):
     if config.option.fzf is _sentinel:
         # not enabled
