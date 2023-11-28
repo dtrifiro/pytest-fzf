@@ -34,7 +34,7 @@ Source = "https://github.com/dtrifiro/pytest-fzf"
 [project.optional-dependencies]
 tests = [
     "pytest==7.2.0",
-    "pytest-sugar==0.9.5",
+    "pytest-sugar==0.9.7",
     "pytest-cov==3.0.0",
     "pytest-mock==3.12.0",
     "mypy==0.971",
