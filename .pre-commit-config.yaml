@@ -10,17 +10,16 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-json
       - id: check-merge-conflict
-        args: ['--assume-in-merge']
+        args: ["--assume-in-merge"]
       - id: check-toml
       - id: check-yaml
-      - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
-        args: ['--fix=lf']
+        args: ["--fix=lf"]
       - id: sort-simple-yaml
       - id: trailing-whitespace
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.1.5'
+    rev: "v0.1.6"
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
