@@ -1,6 +1,5 @@
 """Automation using nox."""
-import glob
-import os
+from pathlib import Path
 
 import nox
 
@@ -45,19 +44,19 @@ def safety(session: nox.Session) -> None:
 def build(session: nox.Session) -> None:
     session.install("build", "setuptools", "twine")
     session.run("python", "-m", "build")
-    dists = glob.glob("dist/*")
+    dists = Path("dist").glob("*")
     session.run("twine", "check", *dists, silent=True)
 
 
 @nox.session(python=versions)
 def dev(session: nox.Session) -> None:
-    """Sets up a python development environment for the project."""
+    """Set up a python development environment for the project."""
     args = session.posargs or ("venv",)
-    venv_dir = os.fsdecode(os.path.abspath(args[0]))
+    venv_dir = Path(args[0])
 
     session.log(f"Setting up virtual environment in {venv_dir}")
     session.install("virtualenv")
     session.run("virtualenv", venv_dir, silent=True)
 
-    python = os.path.join(venv_dir, "bin/python")
+    python = venv_dir / "bin/python"
     session.run(python, "-m", "pip", "install", "-e", ".[dev]", external=True)
