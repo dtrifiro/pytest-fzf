@@ -8,5 +8,5 @@ def test_help_message(testdir):
             "Test selection using fzf:",
             "*--fzf*Select tests to be run using fzf. Optional args provide",
             "*initial query",
-        ]
+        ],
     )

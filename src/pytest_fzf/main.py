@@ -10,7 +10,7 @@ BAT_CMD = "bat --color=always --language=python"
 _sentinel = object()
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser: pytest.Parser) -> None:
     group = parser.getgroup("fzf", "Test selection using fzf")
     group.addoption(
         "--fzf",
@@ -23,10 +23,10 @@ def pytest_addoption(parser):
 
 
 def pytest_collection_modifyitems(
-    session,
-    config,
-    items,  # pylint: disable=unused-argument
-):
+    session: pytest.Session,  # noqa: ARG001
+    config: pytest.Config,
+    items: dict,
+) -> None:
     if config.option.fzf is _sentinel:
         # not enabled
         return
@@ -60,6 +60,6 @@ def pytest_collection_modifyitems(
     selected_names = [test.split(" ")[2] for test in selected]
 
     if config.option.verbose == 1:
-        print(f"\n fzf selected the following tests: {selected_names}")
+        print(f"\n fzf selected the following tests: {selected_names}")  # noqa: T201
 
     items[:] = [test for test in items if test.name in selected_names]
