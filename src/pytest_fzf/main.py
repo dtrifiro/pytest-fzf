@@ -79,7 +79,11 @@ def pytest_collection_modifyitems(
         line_no = test.location[1] + 1
         return f"{line_no} {test.nodeid}"
 
-    res = iterfzf(map(fzf_format, items), **kwargs)
+    res = iterfzf(
+        map(fzf_format, items),
+        __extra__=["--reverse"],
+        **kwargs,
+    )
     if not res:
         items[:] = []
         return
