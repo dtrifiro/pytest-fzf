@@ -14,6 +14,10 @@ _sentinel = object()
 
 PYTEST_FZF_KEY = pytest.StashKey[dict[str, list[pytest.Function]]]()
 
+FZF_KEYBINDINGS = {
+    "ctrl-a": "toggle-all",
+}
+
 
 def pytest_addoption(parser: pytest.Parser) -> None:
     group = parser.getgroup("fzf", "Test selection using fzf")
@@ -81,7 +85,14 @@ def pytest_collection_modifyitems(
 
     res = iterfzf(
         map(fzf_format, items),
-        __extra__=["--reverse"],
+        __extra__=[
+            "--reverse",
+            "--bind={}".format(
+                ",".join(
+                    (f"{key}:{action}" for key, action in FZF_KEYBINDINGS.items()),
+                ),
+            ),
+        ],
         **kwargs,
     )
     if not res:
