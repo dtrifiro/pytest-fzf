@@ -12,6 +12,9 @@ BAT_CMD = "bat --color=always --language=python"
 _sentinel = object()
 
 
+PYTEST_FZF_KEY = pytest.StashKey[dict[str, list[pytest.Function]]]()
+
+
 def pytest_addoption(parser: pytest.Parser) -> None:
     group = parser.getgroup("fzf", "Test selection using fzf")
     group.addoption(
@@ -22,6 +25,27 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         help="Select tests to be run using fzf. Optional args provide initial query",
         nargs="?",
     )
+
+
+def pytest_collection_finish(session: pytest.Session) -> None:
+    verbose = session.config.option.verbose
+    if verbose < 0 or PYTEST_FZF_KEY not in session.config.stash:
+        return
+
+    deselected = session.config.stash[PYTEST_FZF_KEY]["deselected"]
+
+    if not deselected:
+        return
+
+    writer = session.config.get_terminal_writer()
+    writer.write(
+        f" -> {len(deselected)} deselected by pytest-fzf{':' if verbose else ''}\n",
+        bold=True,
+        purple=True,
+    )
+    if verbose:
+        for test in deselected:
+            writer.write(f"  {test.nodeid}\n")
 
 
 def pytest_collection_modifyitems(
@@ -76,6 +100,11 @@ def pytest_collection_modifyitems(
             continue
         collected.add_marker(pytest.mark.fzf_deselected)
         deselected.append(collected)
+
+    config.stash[PYTEST_FZF_KEY] = {
+        "deselected": deselected,
+        "selected": selected,
+    }
 
     config.hook.pytest_deselected(items=deselected)
     items[:] = selected
