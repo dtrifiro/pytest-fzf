@@ -34,14 +34,13 @@ pip install pytest-fzf
 pytest --fzf [query]
 ```
 
-Select multiple tests using tab (shift+tab selects and moves up), deselect previously
-selected tests using using tab again.
+### Keybindings
 
-Optionally, the initial query can be specified from the command line:
+The following keybindings can be used in the fzf selection menu
 
-```bash
-pytest --fzf query
-```
+- Tab: selected/deselect tests
+- Shift+Tab: selected/deselect tests (move up)
+- Ctrl+a: select/deselect all tests
 
 ## Contributing
 
