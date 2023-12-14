@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import shutil
 
 import pytest
@@ -23,9 +25,9 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 
 def pytest_collection_modifyitems(
-    session: pytest.Session,  # noqa: ARG001
+    session: pytest.Session,
     config: pytest.Config,
-    items: dict,
+    items: list[pytest.Function],
 ) -> None:
     if config.option.fzf is _sentinel:
         # not enabled
@@ -36,30 +38,39 @@ def pytest_collection_modifyitems(
     kwargs = {
         "multi": True,
         "prompt": "Select test(s): ",
-        "preview": "tail -n +{2} {1}" + f"| {BAT_CMD}" if BAT_AVAILABLE else "",
+        # see `fzf_format` for the line format
+        "preview": "tail -n +{1} $(echo {2} | cut -d: -f 1)" + f"| {BAT_CMD}"
+        if BAT_AVAILABLE
+        else "",
         "query": query,
         "cycle": True,
     }
 
-    try:
-        selected = iterfzf(
-            (
-                f"{test.location[0]} "  # file path
-                f"{int(test.location[1]) + 1} "  # line number
-                f"{test.location[2]}"  # function name
-                for test in items
-            ),
-            **kwargs,
-        )
-    except KeyboardInterrupt:
-        pytest.exit("No tests selected", returncode=0)
+    def fzf_format(test: pytest.Function) -> str:
+        """Format a test to be displayed with fzf.
 
-    if not selected:
-        pytest.exit("No tests selected", returncode=0)
+        This is done to get a proper preview.
+        """
+        assert test.location[1] is not None
+        line_no = test.location[1] + 1
+        return f"{line_no} {test.nodeid}"
 
-    selected_names = [test.split(" ")[2] for test in selected]
+    res = iterfzf(map(fzf_format, items), **kwargs)
+    if not res:
+        pytest.exit("No tests selected", returncode=1)
 
+    selected = [
+        nodeid
+        for line_no, nodeid in
+        # the selection returned by fzf is formatted with `fzf_format`
+        # re-split it to get the nodeid
+        map(str.split, res)
+    ]
+
+    writer = session.config.get_terminal_writer()
     if config.option.verbose == 1:
-        print(f"\n fzf selected the following tests: {selected_names}")  # noqa: T201
+        writer.write(f"Selected with fzf: {selected}")
+    else:
+        writer.write(f"Selected {len(selected)} items with fzf")
 
-    items[:] = [test for test in items if test.name in selected_names]
+    items[:] = [test for test in items if test.nodeid in selected]
