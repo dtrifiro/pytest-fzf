@@ -25,7 +25,7 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 
 def pytest_collection_modifyitems(
-    session: pytest.Session,
+    session: pytest.Session,  # noqa: ARG001
     config: pytest.Config,
     items: list[pytest.Function],
 ) -> None:
@@ -57,9 +57,10 @@ def pytest_collection_modifyitems(
 
     res = iterfzf(map(fzf_format, items), **kwargs)
     if not res:
-        pytest.exit("No tests selected", returncode=1)
+        items[:] = []
+        return
 
-    selected = [
+    fzf_selection = [
         nodeid
         for line_no, nodeid in
         # the selection returned by fzf is formatted with `fzf_format`
@@ -67,10 +68,14 @@ def pytest_collection_modifyitems(
         map(str.split, res)
     ]
 
-    writer = session.config.get_terminal_writer()
-    if config.option.verbose == 1:
-        writer.write(f"Selected with fzf: {selected}")
-    else:
-        writer.write(f"Selected {len(selected)} items with fzf")
+    selected = []
+    deselected = []
+    for collected in items:
+        if collected.nodeid in fzf_selection:
+            selected.append(collected)
+            continue
+        collected.add_marker(pytest.mark.fzf_deselected)
+        deselected.append(collected)
 
-    items[:] = [test for test in items if test.nodeid in selected]
+    config.hook.pytest_deselected(items=deselected)
+    items[:] = selected
