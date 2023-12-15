@@ -113,7 +113,6 @@ def pytest_collection_modifyitems(
         if collected.nodeid in fzf_selection:
             selected.append(collected)
             continue
-        collected.add_marker(pytest.mark.fzf_deselected)
         deselected.append(collected)
 
     config.stash[PYTEST_FZF_KEY] = {
