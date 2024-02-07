@@ -74,12 +74,12 @@ def pytest_collection_modifyitems(
         """Format a test to be displayed with fzf."""
         assert test.location[1] is not None
         line_no = test.location[1] + 1
-        return f"{line_no} {test.nodeid}"
+        return f"{line_no:4d} │ {test.nodeid}"
 
     if config.option.use_bat:
-        preview_command = "tail -n +{1} $(echo {2} | cut -d: -f 1)" + f"| {BAT_CMD}"
+        preview_command = "tail -n +{1} $(echo {3} | cut -d: -f 1)" + f"| {BAT_CMD}"
     else:
-        preview_command = "pytest-fzf-preview {2}"
+        preview_command = "pytest-fzf-preview {3}"
 
     kwargs = {
         "multi": True,
@@ -107,7 +107,7 @@ def pytest_collection_modifyitems(
 
     fzf_selection = [
         nodeid
-        for line_no, nodeid in
+        for line_no, _, nodeid in
         # the selection returned by fzf is formatted with `fzf_format`
         # re-split it to get the nodeid
         map(str.split, res)
