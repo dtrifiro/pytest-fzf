@@ -6,7 +6,9 @@
 
 fzf-based test selection with `pytest`
 
-[![demo](https://github.com/dtrifiro/pytest-fzf/assets/36171005/29f7a610-2f15-402f-a24f-af8bf7e0e71d)](https://asciinema.org/a/iAr18ilruuPM7pZ1EAfXkxfEf)
+[![demo](https://github.com/dtrifiro/pytest-fzf/assets/36171005/d8a162fc-eed4-4382-9527-dc0cb58ed245)](https://asciinema.org/a/CfvBIUShAllMANUmXgYx0LYpM)
+
+(demo uses the [gruvbox-dark pygments style](https://pygments.org/styles/#gruvbox-dark))
 
 ---
 
