@@ -98,6 +98,10 @@ module = [
 ignore-words-list = " "
 
 [tool.ruff]
+output-format = "full"
+show-fixes = true
+
+[tool.ruff.lint]
 ignore = [
     "S101", # assert
     "PLR2004", # magic-value-comparison
@@ -118,10 +122,8 @@ ignore = [
     "PTH123" # open() should be replaced by Path.open
 ]
 select = ["ALL"]
-show-source = true
-show-fixes = true
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "noxfile.py" = ["D", "PTH"]
 "tests/**" = [ "S", "ARG001", "ARG002", "ANN"]
 "src/pytest_fzf/previewer.py" = ["T201"]
