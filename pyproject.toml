@@ -109,6 +109,13 @@ ignore = [
     "D100", # Missing docstring in public module
     "D103", # Missing docstring in public function
     "D104", # Missing docstring in public package
+
+    "EM101", # Exception must not use a string literal, assign to variable first
+
+    "D203", # one blank line before class
+    "D213", # multi-line-summary-second-line
+
+    "PTH123" # open() should be replaced by Path.open
 ]
 select = ["ALL"]
 show-source = true
