@@ -8,7 +8,6 @@ from iterfzf import iterfzf  # type: ignore[import-untyped]
 BAT_AVAILABLE = shutil.which("bat")
 BAT_CMD = "bat --color=always --language=python"
 
-
 _sentinel = object()
 
 
@@ -28,6 +27,14 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         default=_sentinel,
         help="Select tests to be run using fzf. Optional args provide initial query",
         nargs="?",
+    )
+
+    group.addoption(
+        "--fzf-bat-preview",
+        action="store_true",
+        dest="use_bat",
+        default=False,
+        help="Use bat as fzf preview command",
     )
 
 
@@ -63,25 +70,24 @@ def pytest_collection_modifyitems(
 
     query = config.option.fzf if config.option.fzf else ""
 
-    kwargs = {
-        "multi": True,
-        "prompt": "Select test(s): ",
-        # see `fzf_format` for the line format
-        "preview": "tail -n +{1} $(echo {2} | cut -d: -f 1)" + f"| {BAT_CMD}"
-        if BAT_AVAILABLE
-        else "",
-        "query": query,
-        "cycle": True,
-    }
-
     def fzf_format(test: pytest.Function) -> str:
-        """Format a test to be displayed with fzf.
-
-        This is done to get a proper preview.
-        """
+        """Format a test to be displayed with fzf."""
         assert test.location[1] is not None
         line_no = test.location[1] + 1
         return f"{line_no} {test.nodeid}"
+
+    if config.option.use_bat:
+        preview_command = "tail -n +{1} $(echo {2} | cut -d: -f 1)" + f"| {BAT_CMD}"
+    else:
+        preview_command = "pytest-fzf-preview {2}"
+
+    kwargs = {
+        "multi": True,
+        "prompt": "Select test(s): ",
+        "preview": preview_command,
+        "query": query,
+        "cycle": True,
+    }
 
     res = iterfzf(
         map(fzf_format, items),

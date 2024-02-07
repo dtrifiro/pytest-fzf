@@ -17,7 +17,6 @@ fzf-based test selection with `pytest`
 ## Requirements
 
 - [fzf](https://github.com/junegunn/fzf)
-- (Optional, for colored preview of test functions) `bat`[sharkdp/bat](https://github.com/sharkdp/bat)
 
 ## Installation
 
@@ -32,6 +31,24 @@ pip install pytest-fzf
 
 ```bash
 pytest --fzf [query]
+pytest --fzf [--fzf-bat-preview] # uses bat as fzf preview command
+```
+
+### Syntax highlighting theme
+
+The theme used for previewing test functions can be set using `PYTEST_FZF_THEME` (or `BAT_THEME`, if you use `bat`, see [sharkdp/bat](https://github.com/sharkdp/bat)):
+
+```bash
+export PYTEST_FZF_THEME='gruvbox-dark'
+```
+
+For a list of supported themes, see https://pygments.org/styles/ or get a list by running:
+
+```python
+import pygments
+
+for style in pygments.styles.get_all_styles():
+    print(style)
 ```
 
 ### Keybindings
