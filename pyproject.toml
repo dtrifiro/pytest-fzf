@@ -2,28 +2,26 @@
 requires = ["setuptools>=48", "setuptools_scm[toml]>=6.3.1"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools_scm]
-
 [project]
 name = "pytest-fzf"
 description = "fzf-based test selector for pytest"
 readme = "README.md"
 license = {text = "GNU GPL v3.0"}
-authors = [{ name = "Daniele Trifirò", email = "dtrifiro@redhat.com" }]
+authors = [{name = "Daniele Trifirò", email = "dtrifiro@redhat.com"}]
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Development Status :: 4 - Beta"
 ]
 requires-python = ">=3.8"
 dynamic = ["version"]
 dependencies = [
-    "iterfzf==1.1.0.44.0",
-    "pytest>=6.0.0",
-    "pygments>=2.15.0",
+  "iterfzf==1.1.0.44.0",
+  "pytest>=6.0.0",
+  "pygments>=2.15.0"
 ]
 
 [project.scripts]
@@ -38,15 +36,17 @@ Source = "https://github.com/dtrifiro/pytest-fzf"
 
 [project.optional-dependencies]
 tests = [
-    "pytest-sugar==1.0.0",
-    "pytest-cov==4.1.0",
-    "pytest-mock==3.12.0",
-    "mypy==1.8.0",
-    "types-pygments>=2.15.0",
+  "pytest-sugar==1.0.0",
+  "pytest-cov==4.1.0",
+  "pytest-mock==3.12.0",
+  "mypy==1.8.0",
+  "types-pygments>=2.15.0"
 ]
 dev = [
-    "pytest-fzf[tests]",
+  "pytest-fzf[tests]"
 ]
+
+[tool.setuptools_scm]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -65,13 +65,13 @@ source = ["src", "*/site-packages"]
 [tool.coverage.report]
 show_missing = true
 exclude_lines = [
-    "pragma: no cover",
-    "if __name__ == .__main__.:",
-    "if typing.TYPE_CHECKING:",
-    "if TYPE_CHECKING:",
-    "raise NotImplementedError",
-    "raise AssertionError",
-    "@overload",
+  "pragma: no cover",
+  "if __name__ == .__main__.:",
+  "if typing.TYPE_CHECKING:",
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+  "raise AssertionError",
+  "@overload"
 ]
 
 [tool.mypy]
@@ -91,7 +91,7 @@ files = ["src", "tests"]
 [[tool.mypy.overrides]]
 ignore_missing_imports = true
 module = [
-    "iterfzf",
+  "iterfzf"
 ]
 
 [tool.codespell]
@@ -103,29 +103,25 @@ show-fixes = true
 
 [tool.ruff.lint]
 ignore = [
-    "S101", # assert
-    "PLR2004", # magic-value-comparison
-    "PLW2901", # redefined-loop-name
-    "ISC001", # single-line-implicit-string-concatenation
-    "SIM105", # suppressible-exception
-    "SIM108", # if-else-block-instead-of-if-exp
-
-    "D100", # Missing docstring in public module
-    "D103", # Missing docstring in public function
-    "D104", # Missing docstring in public package
-
-    "EM101", # Exception must not use a string literal, assign to variable first
-
-    "D203", # one blank line before class
-    "D213", # multi-line-summary-second-line
-
-    "PTH123" # open() should be replaced by Path.open
+  "S101",  # assert
+  "PLR2004",  # magic-value-comparison
+  "PLW2901",  # redefined-loop-name
+  "ISC001",  # single-line-implicit-string-concatenation
+  "SIM105",  # suppressible-exception
+  "SIM108",  # if-else-block-instead-of-if-exp
+  "D100",  # Missing docstring in public module
+  "D103",  # Missing docstring in public function
+  "D104",  # Missing docstring in public package
+  "EM101",  # Exception must not use a string literal, assign to variable first
+  "D203",  # one blank line before class
+  "D213",  # multi-line-summary-second-line
+  "PTH123"  # open() should be replaced by Path.open
 ]
 select = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
 "noxfile.py" = ["D", "PTH"]
-"tests/**" = [ "S", "ARG001", "ARG002", "ANN"]
+"tests/**" = ["S", "ARG001", "ARG002", "ANN"]
 "src/pytest_fzf/previewer.py" = ["T201"]
 
 [tool.ruff.lint.flake8-type-checking]
