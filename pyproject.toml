@@ -10,10 +10,10 @@ license = {text = "GNU GPL v3.0"}
 authors = [{name = "Daniele Trifirò", email = "dtrifiro@redhat.com"}]
 classifiers = [
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Development Status :: 4 - Beta"
 ]
 requires-python = ">=3.8"

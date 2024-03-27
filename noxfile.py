@@ -1,4 +1,5 @@
 """Automation using nox."""
+
 from pathlib import Path
 
 import nox
@@ -7,7 +8,7 @@ nox.options.reuse_existing_virtualenvs = True
 nox.options.sessions = "lint", "tests"
 locations = "src", "tests"
 
-versions = ["3.9", "3.9", "3.10", "3.11", "3.12"]
+versions = ["3.9", "3.10", "3.11", "3.12"]
 
 
 @nox.session(python=versions)
