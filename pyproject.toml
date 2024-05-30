@@ -96,6 +96,7 @@ module = [
 
 [tool.codespell]
 ignore-words-list = " "
+skip = "CODE_OF_CONDUCT.rst"
 
 [tool.ruff]
 output-format = "full"
