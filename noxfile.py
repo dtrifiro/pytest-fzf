@@ -34,19 +34,6 @@ def lint(session: nox.Session) -> None:
 
 
 @nox.session(python=versions)
-def safety(session: nox.Session) -> None:
-    """Scan dependencies for insecure packages."""
-    session.install(".[dev]")
-    session.install("safety")
-    session.run(
-        "safety",
-        "check",
-        "--full-report",
-        "--ignore=67599",  # vulnerability in pip when used with --index-extra. See https://data.safetycli.com/v/67599/97c
-    )
-
-
-@nox.session(python=versions)
 def build(session: nox.Session) -> None:
     session.install("build", "setuptools", "twine")
     session.run("python", "-m", "build")

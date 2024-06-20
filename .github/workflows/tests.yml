@@ -43,7 +43,7 @@ jobs:
           nox --version
 
       - name: Lint code and check dependencies
-        run: nox -s lint-${{ matrix.pyv }} safety-${{matrix.pyv}}
+        run: nox -s lint-${{ matrix.pyv }}
 
       - name: Run tests
         run: nox -s tests-${{ matrix.pyv }}
