@@ -3,6 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/pytest-fzf.svg)](https://pypi.org/project/pytest-fzf)
 [![Python versions](https://img.shields.io/pypi/pyversions/pytest-fzf.svg)](https://pypi.org/project/pytest-fzf)
 [![Tests](https://github.com/dtrifiro/pytest-fzf/actions/workflows/tests.yml/badge.svg)](https://github.com/dtrifiro/pytest-fzf/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/dtrifiro/pytest-fzf/branch/main/graph/badge.svg?token=LQPEAXBIJZ)](https://codecov.io/gh/dtrifiro/pytest-fzf)
 
 fzf-based test selection with `pytest`
 
