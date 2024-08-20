@@ -36,7 +36,7 @@ def test_parse_nodespec(nodespec, expected):
     assert parsed == expected
 
 
-@pytest.fixture()
+@pytest.fixture
 def _clean_theme_env_vars(monkeypatch):
     """Remove environment vars which modify theme settings."""
     for env_var in ("BAT_THEME", "PYTEST_FZF_THEME"):
