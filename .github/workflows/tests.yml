@@ -37,11 +37,12 @@ jobs:
         with:
           python-version: ${{ matrix.pyv }}
 
-      - name: Upgrade pip and nox
+      - name: Upgrade pip, nox and uv
         run: |
-          python -m pip install --upgrade pip nox
+          python -m pip install --upgrade pip nox uv
           pip --version
           nox --version
+          uv --version
 
       - name: Lint code and check dependencies
         run: nox -s lint-${{ matrix.pyv }}
