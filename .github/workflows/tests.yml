@@ -52,6 +52,7 @@ jobs:
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v4
+        if: github.actor != 'dependabot[bot]'
         with:
           fail_ci_if_error: ${{ matrix.os != 'windows-latest' }}
         env:
