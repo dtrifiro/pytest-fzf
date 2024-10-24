@@ -160,7 +160,7 @@ def _parse_tree(
     expected_parent_name: str | None = None,
     parent: ast.AST | None = None,
 ) -> ast.AST | None:
-    """Parse the given ast for an object with name  "object_name"."""
+    """Parse the given ast for an object with name "object_name"."""
     if hasattr(tree_or_leaf, "name") and tree_or_leaf.name == object_name:
         if not expected_parent_name:
             return tree_or_leaf
@@ -174,6 +174,8 @@ def _parse_tree(
 
     if not hasattr(tree_or_leaf, "body"):
         return None
+
+    assert isinstance(tree_or_leaf, (ast.Module, ast.ClassDef))
 
     for obj in tree_or_leaf.body:
         if hasattr(obj, "body") and (
@@ -201,14 +203,25 @@ def get_source_for_object(
     expected_parent: str | None = None,
 ) -> tuple[str, int] | None:
     """Return the source code of object by parsing the input source."""
-    if res := _parse_tree(
-        ast.parse(source),
+    tree: ast.Module = ast.parse(source)
+    ast_ = _parse_tree(
+        tree,
         object_name,
         expected_parent_name=expected_parent,
-    ):
-        return ast.unparse(res), res.lineno
+    )
 
-    return None
+    if not ast_:
+        return None
+
+    # Not all ast.AST types have a `lineno` attribute, for example:
+    # > ast.parse(code)
+    # produces an `ast.Module` instance which does not have `lineno`, but only a `body`
+    # attribute, which is a list of all the parsed ast.AST-derived objects which do
+    # have `lineno`. The following assert makes mypy happy about this.
+    # Note that ast.AST.lineno does exist: https://docs.python.org/3/library/ast.html#ast.AST.lineno
+    assert hasattr(ast_, "lineno")
+
+    return ast.unparse(ast_), ast_.lineno
 
 
 if __name__ == "__main__":
