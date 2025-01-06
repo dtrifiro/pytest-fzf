@@ -175,8 +175,6 @@ def _parse_tree(
     if not hasattr(tree_or_leaf, "body"):
         return None
 
-    assert isinstance(tree_or_leaf, (ast.Module, ast.ClassDef))
-
     for obj in tree_or_leaf.body:
         if hasattr(obj, "body") and (
             res := _parse_tree(
