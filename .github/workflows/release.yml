@@ -26,11 +26,12 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Upgrade pip and nox
+      - name: Install pip and nox
         run: |
-          pip install --upgrade pip nox
+          pip install --upgrade pip nox uv
           pip --version
           nox --version
+          uv --version
 
       - name: Build package
         run: nox -s build-3.10
