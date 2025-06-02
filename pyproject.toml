@@ -39,7 +39,7 @@ tests = [
   "pytest-sugar==1.0.0",
   "pytest-cov==6.1.1",
   "pytest-mock==3.14.0",
-  "mypy==1.15.0",
+  "mypy==1.16.0",
   "types-pygments>=2.15.0"
 ]
 dev = [
